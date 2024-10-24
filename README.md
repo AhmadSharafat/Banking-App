@@ -1,6 +1,3 @@
-Here's a README template for your project, showcasing the concepts you're using, what you're building, and your passion for web development. 
-
----
 
 # Bankist App 🚀
 
