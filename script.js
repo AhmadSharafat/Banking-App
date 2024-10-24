@@ -15,7 +15,7 @@ const account1 = {
     "2024-10-20T10:51:36.790Z",
   ],
   currency: "EUR",
-  locale: "pt-PT", // de-DE
+  locale: "en-US", // de-DE
 };
 
 const account2 = {
@@ -162,4 +162,86 @@ const creatingUserName = function (accounts) {
   });
 };
 creatingUserName(accounts);
+// Calculation of total balnce
+const calTotalBalnce = function (accs) {
+  accs.balance = accs.movements.reduce((acc, mov) => acc + mov, 0);
+  // formating balance
+  const formatBalnce = formatCur(accs.balance, accs.currency, accs.locale);
+  labelBalance.textContent = `${formatBalnce}`;
+};
+// Adding And Formatting Current Account Date
+const accDate = function (accs) {
+  const now = new Date();
+  const options = {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+  };
 
+  const date = new Intl.DateTimeFormat(accs.locale, options).format(now);
+  labelDate.textContent = `${date}`;
+};
+// Login Feature
+
+let currentAccount;
+
+const loginFeature = function (inputUsername, inputPin) {
+  currentAccount = accounts.find((acc) => acc.username === inputUsername);
+  if (currentAccount && currentAccount.pin === inputPin) {
+    // Welcome Messege
+    const firstName = currentAccount.owner.split(" ")[0];
+    labelWelcome.textContent = `Welcome Back, ${firstName}`;
+    // Bring Opacity back
+    containerApp.style.opacity = 100;
+    // Display Current Account Movements
+    displayMovements(currentAccount);
+    // Display balance
+    calTotalBalnce(currentAccount);
+    // calculate the Date according to locale
+    accDate(currentAccount);
+    // Clear input fields
+    inputLoginUsername.value = "";
+    inputLoginPin.value = "";
+
+    //Make it blur to field
+    inputLoginPin.blur();
+  }
+};
+// Transfer the money
+const transferMoney = function (receiverAcc, amount) {
+  const account = accounts.find((acc) => acc.username === receiverAcc);
+  if (account && amount > 0 && currentAccount.balance >= amount) {
+    // Adding Movements to recevier Account
+    account.movements.push(amount);
+    currentAccount.movementsDates.push(new Date().toISOString());
+    // Removing from sender account
+    currentAccount.movements.push(-amount);
+    account.movementsDates.push(new Date().toISOString());
+    displayMovements(currentAccount);
+    calTotalBalnce(currentAccount);
+    // Making Input fields empty
+    inputTransferTo.value = "";
+    inputTransferAmount.value = "";
+    //Makig input field blur
+    inputTransferTo.blur();
+    inputTransferAmount.blur();
+  }
+};
+
+// Event Listeners
+// Login Btn
+btnLogin.addEventListener("click", function (e) {
+  e.preventDefault();
+  const inputUsername = inputLoginUsername.value;
+  const inputPin = Number(inputLoginPin.value);
+  loginFeature(inputUsername, inputPin);
+});
+// transfer btn
+btnTransfer.addEventListener("click", function (e) {
+  e.preventDefault();
+  const receiverAcc = inputTransferTo.value;
+  const amount = Number(inputTransferAmount.value);
+  transferMoney(receiverAcc, amount);
+});
