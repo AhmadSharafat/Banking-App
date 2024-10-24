@@ -1,4 +1,5 @@
 Bankist App 🚀
+
 Welcome to Bankist, a minimalistic, fictional online banking app built with modern JavaScript! This project demonstrates my journey and growing expertise in front-end web development as I dive deep into essential JavaScript concepts, DOM manipulation, and clean, modular coding practices.
 
 📋 Project Overview
