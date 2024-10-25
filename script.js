@@ -265,6 +265,19 @@ const loanFeature = function (amount) {
     }, 3000);
   }
 };
+// Close Account Feature
+const closeAccount = function (closeUserName, closePin) {
+  if (
+    closeUserName === currentAccount.username &&
+    currentAccount.pin === closePin
+  ) {
+    labelWelcome.textContent = `Login to get started again :)`;
+    // Bring Opacity back
+    containerApp.style.opacity = 0;
+    inputClosePin.value = "";
+    inputCloseUsername = "";
+  }
+};
 // Total deposits
 const totalDeposits = function (mov) {
   const deposits = mov.movements
@@ -289,7 +302,7 @@ const CalInterestRate = function (mov) {
   const intreset = mov.movements
     .filter((mov) => mov > 0)
     .map((deposit) => (deposit * mov.interestRate) / 100)
-    .reduce((acc, mov) => acc + mov,0);
+    .reduce((acc, mov) => acc + mov, 0);
   const formattedRate = formatCur(intreset, mov.currency, mov.locale);
   labelSumInterest.textContent = `${formattedRate}`;
 };
@@ -316,4 +329,11 @@ btnLoan.addEventListener("click", function (e) {
     loanFeature(amount);
     inputLoanAmount.value = "";
   }
+});
+// Close Account Btn
+btnClose.addEventListener("click", function (e) {
+  e.preventDefault();
+  const name = inputCloseUsername.value;
+  const pin = Number(inputClosePin.value);
+  closeAccount(name, pin);
 });
