@@ -207,6 +207,11 @@ const loginFeature = function (inputUsername, inputPin) {
 
     //Make it blur to field
     inputLoginPin.blur();
+    totalDeposits(currentAccount);
+    // Update the Withdrwal
+    totalWithdrawal(currentAccount);
+    // display intreset
+    CalInterestRate(currentAccount);
   }
 };
 // Transfer the money
@@ -224,12 +229,70 @@ const transferMoney = function (receiverAcc, amount) {
     // Making Input fields empty
     inputTransferTo.value = "";
     inputTransferAmount.value = "";
+
     //Makig input field blur
     inputTransferTo.blur();
     inputTransferAmount.blur();
+    // Updating depoits
+    totalDeposits(currentAccount);
+    // update withdrwal
+    totalWithdrawal(currentAccount);
+    // display intreset
+    CalInterestRate(currentAccount);
   }
 };
-
+// Loan feature
+const loanFeature = function (amount) {
+  const loanApprove = currentAccount.movements.some(
+    (mov) => mov >= amount * 0.1
+  );
+  if (loanApprove) {
+    setTimeout(() => {
+      console.log(`Loan of ${amount} approved and added.`);
+      currentAccount.movements.push(amount);
+      currentAccount.movementsDates.push(new Date().toISOString());
+      // Update the UI For Movemets and deposits
+      // Display Movements
+      displayMovements(currentAccount);
+      // Calculate Total Balance
+      calTotalBalnce(currentAccount);
+      // Calculate total Deposits
+      totalDeposits(currentAccount);
+      // Calculate Total Withdrawals
+      totalWithdrawal(currentAccount);
+      // display intreset
+      CalInterestRate(currentAccount);
+    }, 3000);
+  }
+};
+// Total deposits
+const totalDeposits = function (mov) {
+  const deposits = mov.movements
+    .filter((mov) => mov > 0)
+    .reduce((acc, mov) => acc + mov, 0);
+  const formattedDeposits = formatCur(deposits, mov.currency, mov.locale);
+  // displayMovements(currentAccount);
+  // calTotalBalnce(currentAccount);
+  labelSumIn.textContent = `${formattedDeposits}`;
+};
+// Total Withdrawls
+const totalWithdrawal = function (mov) {
+  const withdrawls = mov.movements
+    .filter((mov) => mov < 0)
+    .map((mov) => Math.abs(mov))
+    .reduce((acc, mov) => acc + mov, 0);
+  const formattedWithdraws = formatCur(withdrawls, mov.currency, mov.locale);
+  labelSumOut.textContent = `${formattedWithdraws}`;
+};
+// Calculate intreset rate on deposits
+const CalInterestRate = function (mov) {
+  const intreset = mov.movements
+    .filter((mov) => mov > 0)
+    .map((deposit) => (deposit * mov.interestRate) / 100)
+    .reduce((acc, mov) => acc + mov,0);
+  const formattedRate = formatCur(intreset, mov.currency, mov.locale);
+  labelSumInterest.textContent = `${formattedRate}`;
+};
 // Event Listeners
 // Login Btn
 btnLogin.addEventListener("click", function (e) {
@@ -244,4 +307,13 @@ btnTransfer.addEventListener("click", function (e) {
   const receiverAcc = inputTransferTo.value;
   const amount = Number(inputTransferAmount.value);
   transferMoney(receiverAcc, amount);
+});
+// Loan Btn
+btnLoan.addEventListener("click", function (e) {
+  e.preventDefault();
+  const amount = Number(inputLoanAmount.value);
+  if (amount > 0) {
+    loanFeature(amount);
+    inputLoanAmount.value = "";
+  }
 });
