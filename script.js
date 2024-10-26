@@ -120,10 +120,12 @@ const formatMovementDate = function (date, locale) {
   return new Intl.DateTimeFormat(locale).format(date);
 };
 // Displaying Movements
-const displayMovements = function (acc) {
+const displayMovements = function (acc, sort = false) {
   containerMovements.innerHTML = "";
+  // implemet the sort method
+  const movs = sort ? acc.movements.slice().sort((a, b) => a - b) : acc.movements;
 
-  acc.movements.forEach(function (mov, i) {
+  movs.forEach(function (mov, i) {
     //   Condition to check condition
     const type = mov > 0 ? "deposit" : "withdrawal";
     //   To formate Currency
@@ -143,7 +145,7 @@ const displayMovements = function (acc) {
   });
 };
 
-displayMovements(account1);
+// displayMovements(acc)
 
 // Creating user names for login
 const userNames = function (name) {
@@ -306,6 +308,8 @@ const CalInterestRate = function (mov) {
   const formattedRate = formatCur(intreset, mov.currency, mov.locale);
   labelSumInterest.textContent = `${formattedRate}`;
 };
+// Implement the Count down timer
+
 // Event Listeners
 // Login Btn
 btnLogin.addEventListener("click", function (e) {
@@ -336,4 +340,10 @@ btnClose.addEventListener("click", function (e) {
   const name = inputCloseUsername.value;
   const pin = Number(inputClosePin.value);
   closeAccount(name, pin);
+});
+// Sorting and displaying the movements
+let sorted = false;
+btnSort.addEventListener("click", function () {
+  displayMovements(currentAccount, !sorted);
+  sorted = !sorted;
 });
