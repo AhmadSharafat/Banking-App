@@ -1,0 +1,144 @@
+@media (min-width: 200px) and (max-width: 800px) {
+  nav {
+    flex-direction: column;
+    justify-content: center; /* Center the navbar */
+    align-items: center;
+    padding: 1rem;
+    overflow-x: hidden;
+    position: fixed;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+
+    transition: all 0.5s ease; /* Smooth transition */
+  }
+
+  .top-navbar {
+    position: sticky;
+    top: 0;
+    left: 0;
+    transform: translate(0, 0); /* Reset transform */
+    width: 100%; /* Full width at the top */
+    padding-bottom: 4rem;
+    z-index: 5;
+    background-color: rgba(
+      255,
+      255,
+      255,
+      0.8
+    ); /* Semi-transparent background */
+    backdrop-filter: blur(10px); /* Adds blur effect */
+    opacity: 0.8; /* Initial opacity */
+    transition: opacity 0.3s ease; /* Smooth opacity transition */
+    opacity: 0.5;
+  }
+  .top-navbar:hover {
+    opacity: 1;
+  }
+  .middle-navbar {
+    position: fixed;
+    top: 7rem;
+    left: 0;
+    transform: translate(0, 0); /* Reset transform */
+    width: 100%; /* Full width at the top */
+    padding-bottom: 4rem;
+    z-index: 4;
+  }
+  .content-adjusted {
+    padding-top: 16rem; /* Matches the navbar height */
+  }
+  .balance__date {
+    font-size: 1.2rem;
+  }
+  .balance__value {
+    font-size: 3.8rem;
+  }
+  .summary {
+    flex-direction: column;
+    align-items: center;
+  }
+  .movements__row {
+    flex-direction: column;
+  }
+  .movements__value {
+    font-size: 1.4rem;
+    margin-left: 0;
+  }
+  .movements__type {
+    margin-right: 0;
+    margin-bottom: 5px;
+  }
+  .balance {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .balance__label {
+    font-size: 2rem;
+    text-align: center;
+  }
+  .login-span {
+    display: flex;
+    justify-content: center;
+  }
+  .logo {
+    align-self: center;
+    margin: 1rem 0;
+  }
+
+  .welcome {
+    font-size: 1.1rem;
+    text-align: center;
+  }
+
+  .login {
+    flex-direction: column;
+    width: 100%;
+    gap: 0.5rem;
+  }
+  .login__input,
+  .form-input {
+    z-index: 20;
+    margin: 6px;
+  }
+  .login__input {
+    width: 100%;
+    font-size: 1rem;
+  }
+
+  .login__btn {
+    align-self: center;
+    font-size: 1.1rem;
+  }
+
+  .app {
+    grid-template-columns: 1fr; /* Single column for mobile */
+    grid-template-rows: auto auto auto auto; /* Define rows for each section */
+    z-index: 5;
+    display: block;
+    gap: 6px;
+  }
+
+  .movements {
+    grid-column: 1; /* Place movements in the first column */
+    grid-row: 1; /* Place movements in the first row */
+  }
+
+  .operation--transfer {
+    grid-column: 1; /* Place transfer form in the first column */
+    grid-row: 2; /* Place transfer form in the second row */
+  }
+
+  .operation--loan {
+    grid-column: 1; /* Place loan form in the first column */
+    grid-row: 3; /* Place loan form in the third row */
+  }
+
+  .operation--close {
+    grid-column: 1; /* Place close form in the first column */
+    grid-row: 4; /* Place close form in the fourth row */
+  }
+  .operation{
+    margin-top: 12px;
+  }
+}

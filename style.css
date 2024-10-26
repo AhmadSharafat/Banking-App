@@ -16,9 +16,10 @@ html {
 }
 
 body {
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   color: #444;
   background-color: #f3f3f3;
+  
   height: 100vh;
   padding: 2rem;
 }
@@ -29,6 +30,7 @@ nav {
   align-items: center;
   padding: 0 2rem;
 }
+
 
 .welcome {
   font-size: 1.9rem;
@@ -81,6 +83,13 @@ nav {
 .btn--sort:focus {
   outline: none;
   color: #777;
+}
+.login-span {
+  font-size: 1.32rem;
+  padding-top: 1rem;
+  padding-left: 1.2rem;
+  padding-right: 1.3rem;
+  cursor: pointer;
 }
 
 /* MAIN */

@@ -86,7 +86,8 @@ const labelSumIn = document.querySelector(".summary__value--in");
 const labelSumOut = document.querySelector(".summary__value--out");
 const labelSumInterest = document.querySelector(".summary__value--interest");
 const labelTimer = document.querySelector(".timer");
-
+const bar = document.querySelector(".nav-bar");
+const content = document.getElementById("content");
 const containerApp = document.querySelector(".app");
 const containerMovements = document.querySelector(".movements");
 
@@ -123,7 +124,9 @@ const formatMovementDate = function (date, locale) {
 const displayMovements = function (acc, sort = false) {
   containerMovements.innerHTML = "";
   // implemet the sort method
-  const movs = sort ? acc.movements.slice().sort((a, b) => a - b) : acc.movements;
+  const movs = sort
+    ? acc.movements.slice().sort((a, b) => a - b)
+    : acc.movements;
 
   movs.forEach(function (mov, i) {
     //   Condition to check condition
@@ -188,9 +191,13 @@ const accDate = function (accs) {
 // Login Feature
 
 let currentAccount;
-
+let timer;
 const loginFeature = function (inputUsername, inputPin) {
   currentAccount = accounts.find((acc) => acc.username === inputUsername);
+  bar.classList.add("top-navbar");
+  bar.classList.remove("middle-navbar");
+  content.classList.add("content-adjusted");
+  content.style.display = "block"; // Ensure content is visible
   if (currentAccount && currentAccount.pin === inputPin) {
     // Welcome Messege
     const firstName = currentAccount.owner.split(" ")[0];
@@ -214,6 +221,12 @@ const loginFeature = function (inputUsername, inputPin) {
     totalWithdrawal(currentAccount);
     // display intreset
     CalInterestRate(currentAccount);
+    // Mov nabar to top
+
+    // Displaying countdown timer
+    // Reset timer if there's already one running
+    if (timer) clearInterval(timer);
+    timer = countDown();
   }
 };
 // Transfer the money
@@ -241,6 +254,9 @@ const transferMoney = function (receiverAcc, amount) {
     totalWithdrawal(currentAccount);
     // display intreset
     CalInterestRate(currentAccount);
+    // Reset timer if there's already one running
+    if (timer) clearInterval(timer);
+    timer = countDown();
   }
 };
 // Loan feature
@@ -264,6 +280,9 @@ const loanFeature = function (amount) {
       totalWithdrawal(currentAccount);
       // display intreset
       CalInterestRate(currentAccount);
+      // Reset timer if there's already one running
+      if (timer) clearInterval(timer);
+      timer = countDown();
     }, 3000);
   }
 };
@@ -277,7 +296,11 @@ const closeAccount = function (closeUserName, closePin) {
     // Bring Opacity back
     containerApp.style.opacity = 0;
     inputClosePin.value = "";
-    inputCloseUsername = "";
+    inputCloseUsername.value = "";
+
+    // Return Navbar to Middle
+    bar.classList.add("middle-navbar");
+    bar.classList.remove("top-navbar")
   }
 };
 // Total deposits
@@ -309,6 +332,40 @@ const CalInterestRate = function (mov) {
   labelSumInterest.textContent = `${formattedRate}`;
 };
 // Implement the Count down timer
+
+const countDown = function () {
+  // Set time limit in seconds (e.g., 5 minutes = 300 seconds)
+  let time = 300;
+
+  // Define a function to display the time in minutes and seconds format
+  const tick = function () {
+    // Calculate minutes and seconds
+    const min = String(Math.floor(time / 60)).padStart(2, "0");
+    const sec = String(time % 60).padStart(2, "0");
+
+    // Display timer on the UI
+    labelTimer.textContent = `${min}:${sec}`;
+
+    // When time runs out, log out the user
+    if (time === 0) {
+      clearInterval(timer);
+      labelWelcome.textContent = "Login to get started again :)";
+      containerApp.style.opacity = 0;
+
+      // Return Navabr
+       bar.classList.remove("top-navbar");
+    }
+
+    // Decrement time by 1 second
+    time--;
+  };
+
+  // Call the tick function immediately, then every 1 second
+  tick(); // Initial call to avoid 1-second delay
+  const timer = setInterval(tick, 1000);
+
+  return timer;
+};
 
 // Event Listeners
 // Login Btn
