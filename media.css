@@ -9,7 +9,7 @@
     transform: translate(-50%, -50%);
     top: 50%;
     left: 50%;
-
+z-index: 10;
     transition: all 0.5s ease; /* Smooth transition */
   }
 
@@ -42,7 +42,7 @@
     transform: translate(0, 0); /* Reset transform */
     width: 100%; /* Full width at the top */
     padding-bottom: 4rem;
-    z-index: 4;
+    z-index: 9;
   }
   .content-adjusted {
     padding-top: 16rem; /* Matches the navbar height */
@@ -138,7 +138,7 @@
     grid-column: 1; /* Place close form in the first column */
     grid-row: 4; /* Place close form in the fourth row */
   }
-  .operation{
+  .operation {
     margin-top: 12px;
   }
 }
