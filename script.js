@@ -197,7 +197,7 @@ const loginFeature = function (inputUsername, inputPin) {
   bar.classList.add("top-navbar");
   bar.classList.remove("middle-navbar");
   content.classList.add("content-adjusted");
-  content.style.display = "block"; // Ensure content is visible
+  // content.style.display = "block"; // Ensure content is visible
   if (currentAccount && currentAccount.pin === inputPin) {
     // Welcome Messege
     const firstName = currentAccount.owner.split(" ")[0];

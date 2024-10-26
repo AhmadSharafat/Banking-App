@@ -46,6 +46,7 @@ z-index: 10;
   }
   .content-adjusted {
     padding-top: 16rem; /* Matches the navbar height */
+    
   }
   .balance__date {
     font-size: 1.2rem;
